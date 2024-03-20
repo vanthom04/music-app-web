@@ -1,0 +1,63 @@
+.header {
+  .title {
+    color: var(--white-color);
+  }
+
+  .liked {
+    display: flex;
+    align-items: center;
+    width: 330px;
+    height: 100%;
+    border-radius: 6px;
+    background-color: #f5f5f51a;
+    margin-top: 24px;
+    overflow: hidden;
+    padding: 0;
+
+    .image {
+      width: 68px;
+      height: 68px;
+      margin-right: 18px;
+    }
+
+    .title {
+      font-size: 1.65rem;
+      color: var(--white-color);
+    }
+
+    .play-btn {
+      position: relative;
+      bottom: -10px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--green-color);
+      margin: 0 12px 0 auto;
+      box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
+      transition: all 0.25s;
+      opacity: 0;
+
+      &:hover {
+        transform: scale(1.11);
+      }
+
+      .icon {
+        font-size: 1.8rem;
+        color: var(--black-color);
+      }
+    }
+
+    &:hover {
+      background-color: #f5f5f533;
+
+      .play-btn {
+        opacity: 1;
+        bottom: 0;
+      }
+    }
+  }
+}
+
+.content {
+  margin-top: 20px;
+}

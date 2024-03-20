@@ -1,0 +1,128 @@
+.wrapper {
+  flex: 1;
+  width: calc(var(--width-sidebar) - var(--width-margin) * 2);
+  margin: var(--width-margin);
+  border-radius: 5px;
+  background-color: #171717;
+  position: absolute;
+  top: calc(var(--height-dashboard) + var(--width-margin));
+  left: 0;
+  bottom: 0;
+  color: #a3a3a3;
+  overflow: hidden;
+  padding: 16px 10px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+    margin-bottom: 8px;
+
+    .icon {
+      font-size: 1.8rem;
+      color: var(--white-color);
+      color: #a3a3a3;
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        margin-right: 12px;
+      }
+
+      .title {
+        font-size: 1.8rem;
+      }
+    }
+
+    .btn-add {
+      padding: 0;
+
+      .icon {
+        transition: all 0.3s;
+
+        &:hover {
+          color: var(--white-color);
+        }
+      }
+    }
+  }
+
+  .libraries {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 24px;
+    overflow-y: overlay;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .library-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+      cursor: pointer;
+
+      .image {
+        width: 48px;
+        width: 48px;
+        object-fit: cover;
+        border-radius: 2px;
+        margin-right: 12px;
+      }
+
+      .item-info {
+        .title {
+          font-size: 1.6rem;
+          font-weight: 400;
+          color: var(--white-color);
+        }
+
+        .analytics {
+          font-size: 1.4rem;
+          color: #949494;
+        }
+      }
+
+      &.active {
+        background-color: #222222;
+
+        .title {
+          color: var(--green-color);
+        }
+
+        &:hover {
+          background-color: #393939;
+        }
+      }
+
+      &:hover {
+        background-color: #1a1a1a;
+      }
+    }
+  }
+
+  .btn-login {
+    width: 90%;
+    height: 42px;
+    border-radius: 50%;
+    color: var(--black-color);
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-top: 10px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    background-color: var(--white-color);
+    transition: transform 0.25s;
+
+    &:hover {
+      transform: scale(1.025);
+    }
+  }
+}

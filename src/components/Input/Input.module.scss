@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background-color: #404040;
+  font-size: 1.6rem;
+  color: #a3a3a3;
+
+  &.file {
+    border-width: 0;
+    background-color: transparent;
+    font-size: 1.6rem;
+    font-weight: medium;
+  }
+
+  &::placeholder {
+    color: #a3a3a3;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

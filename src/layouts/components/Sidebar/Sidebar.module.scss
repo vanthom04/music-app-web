@@ -1,0 +1,8 @@
+.wrapper {
+  --width-sidebar: 330px;
+  --width-margin: 10px;
+  --height-dashboard: 120px;
+
+  width: var(--width-sidebar);
+  height: 100vh;
+}

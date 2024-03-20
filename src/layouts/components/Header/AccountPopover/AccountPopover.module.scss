@@ -1,0 +1,56 @@
+.menu-list {
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  background-color: #282828;
+  padding: 4px;
+  border-radius: 4px;
+
+  .header-menu {
+    padding: 4px;
+    border-bottom: 1px solid #3e3e3e;
+
+    .title {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #ffffffe6;
+    }
+    
+    .email {
+      font-size: 1.3rem;
+      color: #ffffffe6;
+    }
+  }
+
+  .menu-item {
+    padding: 8px 0;
+    color: #ffffffe6;
+    border-radius: 1px;
+
+    &:hover {
+      background-color: #3e3e3e;
+    }
+  }
+
+  .footer-menu {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #3e3e3e;
+
+    .btn-logout {
+      margin-top: 6px;
+      color: #ffffffe6;
+
+      &:hover {
+        color: #fe6847;
+      }
+    }
+  }
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+}

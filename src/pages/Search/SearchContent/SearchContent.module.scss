@@ -1,0 +1,54 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+
+  .song-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+
+    &:hover {
+      background-color: #1e1e1e;
+    }
+
+    .thumbnail {
+      width: 48px;
+      width: 48px;
+      object-fit: cover;
+      border-radius: 2px;
+      margin-right: 12px;
+    }
+
+    .name {
+      color: var(--white-color);
+      font-size: 1.6rem;
+    }
+
+    .artist {
+      color: #a3a3a3;
+      font-size: 1.3rem;
+    }
+
+    .like-btn {
+      margin-left: auto;
+      padding: 12px;
+
+      svg {
+        color: var(--white-color);
+
+        &:hover {
+          color: #a3a3a3;
+        }
+      }
+    }
+  }
+}
+
+.no-song-found {
+  font-size: 1.8rem;
+}

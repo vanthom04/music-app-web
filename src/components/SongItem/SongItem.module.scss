@@ -1,0 +1,121 @@
+.song-item {
+  display: grid;
+  grid-template-columns:
+    [index] 28px
+    [first] minmax(120px, 6fr)
+    [var1] minmax(120px, 4fr)
+    [var2] minmax(120px, 3fr)
+    [last] minmax(120px, 1fr);
+  align-items: center;
+  padding: var(--padding-song-item-top-bottom) var(--padding-song-item-left-right);
+  border-radius: 4px;
+  cursor: default;
+
+  .index {
+    color: #a7a7a7;
+
+    .icon-play {
+      display: none;
+    }
+  }
+
+  .info {
+    display: flex;
+    font-size: 1.2rem;
+
+    .thumbnail {
+      width: 42px;
+      height: 42px;
+      border-radius: 4px;
+    }
+
+    .column {
+      line-height: 1.25;
+      margin-left: 12px;
+
+      .title {
+        color: var(--white-color);
+        font-size: 1.6rem;
+      }
+
+      .artist {
+        font-size: 1.4rem;
+        color: #a7a7a7;
+      }
+    }
+  }
+
+  .album,
+  .extra-day,
+  .more {
+    color: #a7a7a7;
+    font-size: 1.5rem;
+  }
+
+  .more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .liked {
+      color: #bababa;
+      visibility: hidden;
+    }
+
+    .duration {
+      margin: 0 12px;
+    }
+
+    .options {
+      color: #bababa;
+      font-size: 1.6rem;
+      visibility: hidden;
+    }
+  }
+
+  &.active {
+    .index,
+    .info .title {
+      color: var(--green-color);
+    }
+
+    // .more .liked {
+    //   visibility: visible;
+    // }
+  }
+
+  &:hover {
+    background-color: rgba(42, 42, 42, 0.9);
+
+    .index span {
+      display: none;
+    }
+
+    .index .icon-play {
+      display: block;
+      color: var(--white-color);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    .column {
+      .artist {
+        color: var(--white-color);
+      }
+    }
+
+    .album {
+      color: var(--white-color);
+    }
+
+    .more {
+      .liked {
+        visibility: visible;
+      }
+
+      .options {
+        visibility: visible;
+      }
+    }
+  }
+}

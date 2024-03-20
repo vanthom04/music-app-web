@@ -1,0 +1,57 @@
+.dashboard {
+  display: flex;
+  align-items: flex-end;
+  height: 260px;
+  padding-bottom: 24px;
+  background-color: transparent;
+
+  .image {
+    width: 220px;
+    height: 220px;
+    border-radius: 4px;
+    box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .info {
+    flex: 1;
+    width: 100%;
+    margin-left: 24px;
+
+    .display-name {
+      line-height: 1.2;
+      font-size: 80px;
+    }
+  }
+
+  .analytics {
+    display: flex;
+    align-items: center;
+
+    .user {
+      display: flex;
+      align-items: center;
+
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+
+      .name {
+        margin-left: 8px;
+        font-size: 1.5rem;
+        font-weight: 500;
+      }
+    }
+
+    .statistical {
+      font-weight: 400;
+      font-size: 1.4rem;
+
+      &::before {
+        content: '•';
+        margin: 0 6px;
+      }
+    }
+  }
+}

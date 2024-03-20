@@ -1,0 +1,123 @@
+.social-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 16px;
+  margin-top: 8px;
+
+  .btn-social {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2e2e2e;
+    padding: 10px 0;
+    border: 1px solid #3e3e3e;
+    border-radius: 4px;
+    transition: background-color 0.25s;
+
+    &:hover {
+      background-color: #3e3e3e;
+    }
+
+    .icon-social {
+      width: 24px;
+      height: 24px;
+    }
+
+    .text {
+      margin-left: 12px;
+      color: var(--white-color);
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.or {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0 4px 0;
+  color: #a9a9a9;
+  font-size: 1.5rem;
+
+  &::before {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: #3e3e3e;
+    margin-right: 10px;
+  }
+
+  &::after {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: #3e3e3e;
+    margin-left: 10px;
+  }
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  .label {
+    margin-bottom: 4px;
+    color: #808080;
+    font-weight: 400;
+    font-size: 1.5rem;
+  }
+
+  .input {
+    padding: 10px 8px;
+    font-size: 1.5rem;
+  }
+
+  .btn-login {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--white-color);
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid var(--green-color);
+    background-color: #404040;
+    margin-top: 4px;
+    transition: background-color 0.25s;
+
+    &:hover {
+      background-color: var(--green-color); 
+    }
+  }
+}
+
+.more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 1.4rem;
+  color: #777777;
+
+  .have-account {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .btn {
+      font-size: 1.4rem;
+      color: #777777;
+      transition: all 0.25s;
+
+      &:hover {
+        font-weight: 400;
+        color: #a9a9a9;
+        text-decoration: underline;
+      }
+    }
+  }
+}

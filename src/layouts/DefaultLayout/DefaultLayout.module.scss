@@ -1,0 +1,33 @@
+.wrapper {
+  --height-footer: 90px;
+
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  color: white;
+
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+
+    &.active {
+      bottom: calc(var(--height-footer) - 10px);
+    }
+
+    .view-content {
+      flex: 1;
+      border-radius: 5px;
+      margin: 10px 10px 10px 0;
+      background-color: #171717;
+      overflow-y: scroll;
+
+      .content {
+        padding: 12px 14px 12px 24px;
+      }
+    }
+  }
+}

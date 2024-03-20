@@ -1,0 +1,16 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  padding: 4px;
+  background: transparent;
+  user-select: none;
+  cursor: pointer;
+
+  &.disabled {
+    pointer-events: none;
+    cursor: no-drop;
+    opacity: 0.5;
+  }
+}

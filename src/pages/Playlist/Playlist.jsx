@@ -59,7 +59,7 @@ function Playlist() {
               </span>
             </div>
           </div>
-          <PlaylistContent songs={songs} />
+          <PlaylistContent playlistId={params.playlistId} songs={songs} />
         </>
       ) : (
         <Loading />

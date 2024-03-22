@@ -20,7 +20,7 @@ function LikedContent({ songs }) {
       {songs.map((song, index) => (
         <SongItem
           key={song.id}
-          data={{ ...song, index }}
+          song={{ ...song, index }}
           onClick={(id) => onPlay(id)}
         />
       ))}

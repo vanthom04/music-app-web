@@ -1,20 +1,23 @@
+import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
-import { LuPlus } from 'react-icons/lu'
 
-import Button from '~/components/Button'
+import AddSongButton from '~/components/AddSongButton'
 import styles from './SongNotFound.module.scss'
 
 const cx = classNames.bind(styles)
 
-function SongNotFound() {
+function SongNotFound({ playlistId }) {
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('title')}>Hiện chưa có bài hát nào trong danh sách phát</div>
-      <Button className={cx('btn-add')}>
-        <LuPlus className={cx('icon')} size={22} />
-      </Button>
+      <AddSongButton playlistId={playlistId} />
     </div>
   )
+}
+
+SongNotFound.popTypes = {
+  playlistId: PropTypes.string
 }
 
 export default SongNotFound

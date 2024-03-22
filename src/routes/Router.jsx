@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Outlet, useRoutes } from 'react-router-dom'
+import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 
 import config from '~/config'
 import { DefaultLayout } from '~/layouts'
@@ -31,6 +31,10 @@ function Router() {
     {
       path: config.routes.notFound,
       element: <NotFoundPage />
+    },
+    {
+      path: '*',
+      element: <Navigate to={config.routes.notFound} replace />
     }
   ])
 

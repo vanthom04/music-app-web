@@ -29,9 +29,7 @@ function AccountPopover() {
     console.log(item)
   }
 
-  if (!user) {
-    return null
-  }
+  if (!user) return null
 
   const renderResult = (attrs) => (
     <div className={cx('menu-list')} tabIndex="-1" {...attrs}>

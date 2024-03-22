@@ -67,9 +67,38 @@
     }
 
     .options {
+      position: relative;
       color: #bababa;
       font-size: 1.6rem;
       visibility: hidden;
+
+      .menu-list-options {
+        position: absolute;
+        right: 100%;
+        width: 100%;
+        min-width: 250px;
+        padding: 4px;
+        background-color: #282828;
+        border-radius: 4px;
+        z-index: 100;
+
+        .menu-item-options {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 6px;
+          border-radius: 3px;
+
+          .title {
+            font-size: 1.6rem;
+            margin-left: 8px;
+          }
+
+          &:hover {
+            background-color: #3e3e3e;
+          }
+        }
+      }
     }
   }
 
@@ -78,10 +107,6 @@
     .info .title {
       color: var(--green-color);
     }
-
-    // .more .liked {
-    //   visibility: visible;
-    // }
   }
 
   &:hover {

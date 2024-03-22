@@ -36,15 +36,16 @@ const useUser = () => {
       setLoading(true)
       const res = await authService.register(username.trim(), email.trim(), password.trim())
       if (res && !res.isActive) {
-        toast.success('Đăng ký thành công!\nVui lòng xác minh tài khoản trong email!')
+        toast.success('Đăng ký thành công!\nVui lòng xác minh email và đăng nhập lại!')
         registerModal.onClose()
         loginModal.onOpen()
         setLoading(false)
+        return true
       }
     } catch (error) {
       setLoading(false)
       toast.error('Tên đăng nhập hoặc email đã tồn tại!')
-      throw new Error(error)
+      return false
     }
   }
 
@@ -64,14 +65,16 @@ const useUser = () => {
           secure: false
         })
         router.reload()
+        return true
       } else {
         toast.error('Vui lòng xác minh tài khoản trong email!')
         setLoading(false)
+        return false
       }
     } catch (error) {
       setLoading(false)
       toast.error('Sai tên đăng nhập hoặc mật khẩu')
-      throw new Error(error)
+      return false
     }
   }
 

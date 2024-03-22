@@ -41,13 +41,18 @@ function RegisterModal() {
     resetForm()
   }
 
-  const handleSubmitRegister = (e) => {
+  const handleSubmitRegister = async (e) => {
     e.preventDefault()
     if (!username || !email || !password) {
       return toast.error('Vui lòng nhập đầy đủ thông tin!')
     }
 
-    register(username, email, password)
+    const success = await register(username, email, password)
+    if (success) {
+      registerModal.onClose()
+      loginModal.onOpen()
+      resetForm()
+    }
   }
 
   return (

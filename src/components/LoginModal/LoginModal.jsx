@@ -47,9 +47,11 @@ function LoginModal() {
       return toast.error('Vui lòng nhập đầy đủ thông tin!')
     }
 
-    login(username, password)
-    loginModal.onClose()
-    resetForm()
+    const success = await login(username, password)
+    if (success) {
+      loginModal.onClose()
+      resetForm()
+    }
   }
 
   return (

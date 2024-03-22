@@ -1,0 +1,47 @@
+.container {
+  width: 300px;
+
+  .desc {
+    color: #a3a3a3;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 16px;
+
+    .btn {
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: 1.6rem;
+
+      + .btn {
+        margin-left: 12px;
+      }
+    }
+
+    .btn-cancel {
+      color: #a3a3a3;
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--white-color);
+      }
+    }
+
+    .btn-success {
+      background-color: var(--green-color);
+      border-radius: 99px;
+      transition: transform 0.25s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}

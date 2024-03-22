@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
 import HeaderSongItem from '~/components/HeaderSongItem'
@@ -8,10 +9,10 @@ import { useOnPlay } from '~/hooks'
 
 const cx = classNames.bind(styles)
 
-function PlaylistContent({ songs }) {
+function PlaylistContent({ playlistId, songs }) {
   const onPlay = useOnPlay(songs)
 
-  if (songs.length === 0) return <SongNotFound />
+  if (songs.length === 0) return <SongNotFound playlistId={playlistId} />
 
   return (
     <div className={cx('wrapper')}>
@@ -19,12 +20,17 @@ function PlaylistContent({ songs }) {
       {songs.map((song, index) => (
         <SongItem
           key={index}
-          data={{ ...song, index }}
+          song={{ ...song, index }}
           onClick={(id) => onPlay(id)}
         />
       ))}
     </div>
   )
+}
+
+PlaylistContent.propTypes = {
+  playlistId: PropTypes.string,
+  songs: PropTypes.array.isRequired
 }
 
 export default PlaylistContent

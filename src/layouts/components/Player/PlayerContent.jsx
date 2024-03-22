@@ -17,6 +17,7 @@ const cx = classNames.bind(styles)
 
 function PlayerContent({ song }) {
   const player = usePlayer()
+
   const [isPlaying, setIsPlaying] = useState(false)
   const [progressWidth, setProgressWidth] = useState(0)
   const [currentTime, setCurrentTime] = useState('-:--')
@@ -85,7 +86,7 @@ function PlayerContent({ song }) {
     const progress = progressRef.current
     const rect = progress.getBoundingClientRect()
     const mouseX = e.clientX - rect.left
-    const newProgress = (mouseX / rect.width)
+    const newProgress = mouseX / rect.width
     const duration = audioRef.current.duration
     audioRef.current.currentTime = newProgress * duration
   }

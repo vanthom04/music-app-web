@@ -9,37 +9,4 @@
     width: 100%;
     color: var(--white-color);
   }
-
-  .form-search {
-    position: relative;
-    width: 100%;
-    margin: 20px 0;
-
-    .search-input {
-      padding: 12px;
-    }
-
-    .clear,
-    .loading {
-      position: absolute;
-      top: 50%;
-      right: 12px;
-      transform: translateY(-50%);
-      color: #a3a3a3;
-      padding: 0;
-    }
-
-    .loading {
-      animation: spinner 0.8s linear infinite;
-    }
-
-    @keyframes spinner {
-      from {
-        transform: translateY(-50%) rotate(0);
-      }
-      to {
-        transform: translateY(-50%) rotate(360deg);
-      }
-    }
-  }
 }

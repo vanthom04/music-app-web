@@ -6,7 +6,7 @@ import { LuPlus } from 'react-icons/lu'
 import config from '~/config'
 import * as likedService from '~/services/likedService'
 import * as playlistService from '~/services/playlistService'
-import { useUser, useLiked, useLoginModal, useUploadModal } from '~/hooks'
+import { useUser, useLiked, useLoginModal, useUploadModal, usePlaylist } from '~/hooks'
 import LibraryItem from './LibraryItem'
 import Button from '~/components/Button'
 import styles from './Library.module.scss'
@@ -16,9 +16,9 @@ const cx = classNames.bind(styles)
 function Library() {
   const liked = useLiked()
   const { user } = useUser()
+  const playlist = usePlaylist()
   const loginModal = useLoginModal()
   const uploadModal = useUploadModal()
-
 
   const [allPlaylist, setAllPlaylist] = useState([])
 
@@ -36,14 +36,17 @@ function Library() {
 
   useEffect(() => {
     if (!user) return
-
-    const fetchPlaylist = async () => {
-      const res = await playlistService.getAllPlaylist(user.id, user.accessToken)
-      setAllPlaylist(res)
-    }
-
-    fetchPlaylist()
-  }, [user])
+    const timer = setTimeout(() => {
+      const fetchPlaylist = async () => {
+        const res = await playlistService.getAllPlaylist(user.id, user.accessToken)
+        setAllPlaylist(res)
+        playlist.reset()
+      }
+      fetchPlaylist()
+    }, 1000)
+    return () => clearTimeout(timer)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, playlist.reload])
 
   const handleClickUpload = () => {
     if (!user) {

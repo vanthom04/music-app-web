@@ -61,6 +61,7 @@
     align-items: center;
 
     .library-item {
+      position: relative;
       width: 100%;
       display: flex;
       align-items: center;
@@ -90,6 +91,22 @@
         }
       }
 
+      .menu-list {
+        position: fixed;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        z-index: 100;
+      }
+
+      .btn-more {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        padding: 10px;
+        visibility: hidden;
+      }
+
       &.active {
         background-color: #222222;
 
@@ -104,6 +121,18 @@
 
       &:hover {
         background-color: #1a1a1a;
+
+        .btn-more {
+          visibility: visible;
+
+          .icon {
+            color: var(--white-color);
+          }
+
+          .menu-item {
+            background-color: red;
+          }
+        }
       }
     }
   }

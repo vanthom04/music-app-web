@@ -1,16 +1,13 @@
 import { Toaster } from 'react-hot-toast'
+
 import Router from '~/routes/Router'
-import LoginModal from './components/LoginModal'
-import RegisterModal from './components/RegisterModal'
-import UploadModal from './components/UploadModal'
+import ModalProvider from './providers/ModalProvider'
 
 function App() {
   return (
     <>
       <Router />
-      <LoginModal />
-      <RegisterModal />
-      <UploadModal />
+      <ModalProvider />
       <Toaster position="top-center" />
     </>
   )

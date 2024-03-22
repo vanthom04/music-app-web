@@ -1,0 +1,71 @@
+.wrapper {
+  width: 700px;
+  height: 450px;
+
+  .container {
+    margin-top: 10px;
+
+    .heading {
+      color: var(--white-color);
+    }
+
+    .song-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      border-radius: 6px;
+      padding: 4px;
+      transition: background-color 0.25s;
+
+      .info {
+        display: flex;
+        align-items: center;
+        
+        .thumbnail {
+          width: 45px;
+          height: 45px;
+          border-radius: 4px;
+        }
+
+        .column {
+          line-height: 1.25;
+          margin-left: 10px;
+    
+          .name {
+            color: var(--white-color);
+            font-size: 1.6rem;
+          }
+    
+          .artist {
+            font-size: 1.4rem;
+            color: #a7a7a7;
+          }
+        }
+      }
+
+      .btn-add {
+        padding: 8px 16px;
+        margin-right: 4px;
+        border-radius: 500px;
+        border: 1px solid var(--white-color);
+        background-color: transparent;
+        color: var(--white-color);
+        font-weight: 500;
+        transition: transform 0.25s;
+
+        &:hover {
+          transform: scale(1.025);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      &:hover {
+        background-color: rgba(42, 42, 42, 0.9);
+      }
+    }
+  }
+}

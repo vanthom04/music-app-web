@@ -25,19 +25,17 @@ function SearchContent({ songs }) {
   return (
     <div className={cx('wrapper')}>
       {songs.map(song => (
-        <div
-          key={song.id}
-          className={cx('song-item')}
-          onClick={() => handleClick(song.id)}
-        >
-          <Image
-            className={cx('thumbnail')}
-            src={song.imageURL}
-            alt={song.name}
-          />
-          <div className={cx('info-item')}>
-            <div className={cx('name')}>{song.name}</div>
-            <div className={cx('artist')}>{song.artist}</div>
+        <div key={song.id} className={cx('song-item')}>
+          <div className={cx('info')} onClick={() => handleClick(song.id)}>
+            <Image
+              className={cx('thumbnail')}
+              src={song.imageURL}
+              alt={song.name}
+            />
+            <div className={cx('info-item')}>
+              <div className={cx('name')}>{song.name}</div>
+              <div className={cx('artist')}>{song.artist}</div>
+            </div>
           </div>
           <LikeButton className={cx('like-btn')} song={song} />
         </div>

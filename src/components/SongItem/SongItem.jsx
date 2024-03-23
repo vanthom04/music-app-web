@@ -31,13 +31,23 @@ const menuOptions = [
   }
 ]
 
-function SongItem({ song, active, onClick }) {
+function SongItem({ song, onClick }) {
   const [duration, setDuration] = useState('')
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [menu, setMenu] = useState([])
+  const [isOpenMenu, setIsOpenMenu] = useState(false)
 
   const { user } = useUser()
   const location = useLocation()
   const playlist = usePlaylist()
+
+  useEffect(() => {
+    const pathname = location.pathname
+    if (pathname === '/liked') {
+      setMenu(menuOptions.filter((item) => item.id !== 'remove'))
+    } else {
+      setMenu(menuOptions)
+    }
+  }, [location])
 
   useEffect(() => {
     if (!song) return
@@ -49,13 +59,11 @@ function SongItem({ song, active, onClick }) {
     }
 
     audio.addEventListener('loadeddata', handleLoadDuration)
-    return () => {
-      audio.removeEventListener('loadeddata', handleLoadDuration)
-    }
+    return () => audio.removeEventListener('loadeddata', handleLoadDuration)
   }, [song])
 
   const handleOptionsClick = () => {
-    setIsMenuOpen(!isMenuOpen)
+    setIsOpenMenu(!isOpenMenu)
   }
 
   const removeSongFormPlaylist = async () => {
@@ -93,7 +101,6 @@ function SongItem({ song, active, onClick }) {
       break
     case 'download':
       downloadFile()
-      // console.log(song.songURL)
       break
     default:
       throw new Error('Invalid id: ' + id)
@@ -101,7 +108,10 @@ function SongItem({ song, active, onClick }) {
   }
 
   return (
-    <div className={cx('song-item', { active })}>
+    <div className={cx('song-item', {
+      active: false,
+      openmenu: isOpenMenu
+    })}>
       <div className={cx('index')}>
         <span>{song.index + 1}</span>
         <FaPlay
@@ -127,11 +137,11 @@ function SongItem({ song, active, onClick }) {
         <LikeButton className={cx('liked')} song={song} />
         <span className={cx('duration')}>{duration}</span>
         <Button className={cx('options')} onClick={handleOptionsClick}
-          onMouseLeave={() => setIsMenuOpen(false)}>
+          onMouseLeave={() => setIsOpenMenu(false)}>
           <TfiMoreAlt size={16} />
-          {isMenuOpen && (
+          {isOpenMenu && (
             <div className={cx('menu-list-options')}>
-              {menuOptions.map((item) => (
+              {menu.map((item) => (
                 <div
                   key={item.id}
                   onClick={() => handleClickItemMenu(item.id)}

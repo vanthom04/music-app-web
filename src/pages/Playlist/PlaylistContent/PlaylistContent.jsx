@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
 import HeaderSongItem from '~/components/HeaderSongItem'
+import AddSongButton from '~/components/AddSongButton'
 import SongNotFound from '~/components/SongNotFound'
 import SongItem from '~/components/SongItem'
 import styles from './PlaylistContent.module.scss'
@@ -24,6 +25,10 @@ function PlaylistContent({ playlistId, songs }) {
           onClick={(id) => onPlay(id)}
         />
       ))}
+      <div className={cx('footer')}>
+        <h3>Thêm bài hát</h3>
+        <AddSongButton playlistId={playlistId} />
+      </div>
     </div>
   )
 }

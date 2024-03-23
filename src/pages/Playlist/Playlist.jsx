@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import classNames from 'classnames/bind'
 
-import { useUser } from '~/hooks'
+import { useUser, usePlaylist } from '~/hooks'
 import * as playlistService from '~/services/playlistService'
 import Image from '~/components/Image'
 import PlaylistContent from './PlaylistContent'
@@ -12,10 +12,11 @@ import Loading from '~/components/Loading'
 const cx = classNames.bind(styles)
 
 function Playlist() {
-  const [playlist, setPlaylist] = useState(null)
+  const [detailPlaylist, setDetailPlaylist] = useState(null)
   const [songs, setSongs] = useState([])
 
   const { user } = useUser()
+  const playlist = usePlaylist()
   const params = useParams()
 
   useEffect(() => {
@@ -26,26 +27,27 @@ function Playlist() {
       const accessToken = user.accessToken
       const playlistId = params.playlistId
       const res = await playlistService.getPlaylist(userId, playlistId, accessToken)
-      setPlaylist(res)
+      setDetailPlaylist(res)
       setSongs(res.songs)
     }
 
     fetchPlaylist()
-  }, [user, params.playlistId])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, params.playlistId, playlist.reload])
 
   return (
     <>
-      {playlist ? (
+      {detailPlaylist ? (
         <>
           <div className={cx('dashboard')}>
             <Image
               className={cx('image')}
-              src={playlist.thumbnail}
-              alt={playlist.title}
+              src={detailPlaylist.thumbnail}
+              alt={detailPlaylist.title}
             />
             <div className={cx('info')}>
               <h5 className={cx('title')}>Playlist</h5>
-              <h1 className={cx('display-name')}>{playlist.title}</h1>
+              <h1 className={cx('display-name')}>{detailPlaylist.title}</h1>
               <span className={cx('analytics')}>
                 <div className={cx('user')}>
                   <Image
@@ -55,7 +57,7 @@ function Playlist() {
                   />
                   <h4 className={cx('name')}>Văn Thơm</h4>
                 </div>
-                <div className={cx('statistical')}>{playlist.analytics}</div>
+                <div className={cx('statistical')}>{setDetailPlaylist.analytics}</div>
               </span>
             </div>
           </div>

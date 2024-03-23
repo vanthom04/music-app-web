@@ -108,9 +108,13 @@
       color: var(--green-color);
     }
   }
+  
+  &.openmenu {
+    background-color: #676263 !important;
+  }
 
   &:hover {
-    background-color: rgba(42, 42, 42, 0.9);
+    background-color: #2a2a2a;
 
     .index span {
       display: none;

@@ -19,10 +19,13 @@ function PlayerContent({ song }) {
   const player = usePlayer()
 
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isRandom, setIsRandom] = useState(false)
+  const [isRepeat, setIsRepeat] = useState(false)
+  const [idsPlayed, setIdsPlayed] = useState([])
   const [progressWidth, setProgressWidth] = useState(0)
   const [currentTime, setCurrentTime] = useState('-:--')
   const [durationTime, setDurationTime] = useState('-:--')
-  const [volume, setVolume] = useState(0.5)
+  const [volume, setVolume] = useState(1)
   const [volumeIsMute, setVolumeIsMute] = useState(0)
   const [isMute, setIsMute] = useState(false)
 
@@ -39,14 +42,43 @@ function PlayerContent({ song }) {
     player.setId(prevSong)
   }
 
+  useEffect(() => {
+    if (idsPlayed.length === player.ids.length) {
+      setIdsPlayed([])
+    }
+  }, [idsPlayed, player.ids.length])
+
   const onPlayNextSong = () => {
     if (player.ids.length === 0) return
 
-    const currentIndex = player.ids.findIndex((id) => id === player.activeId)
-    const nextSong = player.ids[currentIndex + 1]
+    if (isRandom) {
+      let randomIndex
+      let randomIdSong
 
-    if (!nextSong) return player.setId(player.ids[0])
-    player.setId(nextSong)
+      do {
+        randomIndex = Math.floor(Math.random() * player.ids.length)
+        randomIdSong = player.ids[randomIndex]
+      } while (idsPlayed.includes(randomIdSong))
+
+      setIdsPlayed((prevIdsSong) => [...prevIdsSong, randomIdSong])
+
+      player.setId(randomIdSong)
+    } else {
+      const currentIndex = player.ids.findIndex((id) => id === player.activeId)
+      const nextSong = player.ids[currentIndex + 1]
+      if (!nextSong) return player.setId(player.ids[0])
+      player.setId(nextSong)
+    }
+  }
+
+  const handleRandomSong = () => {
+    setIsRandom(!isRandom)
+    if (isRepeat) setIsRepeat(false)
+  }
+
+  const handleRepeatSong = () => {
+    setIsRepeat(!isRepeat)
+    if (isRandom) setIsRandom(false)
   }
 
   const playSong = () => {
@@ -79,6 +111,9 @@ function PlayerContent({ song }) {
   }
 
   const handleEnded = () => {
+    if (isRepeat) {
+      return audioRef.current.play()
+    }
     onPlayNextSong()
   }
 
@@ -148,8 +183,12 @@ function PlayerContent({ song }) {
       </div>
       <div className={cx('controls')}>
         <div className={cx('player')}>
-          <Button className={cx('btn', 'btn-random')}>
-            <FaShuffle className={cx('icon')} size={18} />
+          <Button className={cx('btn', 'btn-random')} onClick={handleRandomSong}>
+            <FaShuffle
+              size={18}
+              className={cx('icon')}
+              color={isRandom ? '#22c55e' : '#b3b3b3'}
+            />
           </Button>
           <Button className={cx('btn', 'btn-prev')} onClick={onPlayPrevSong}>
             <MdSkipPrevious className={cx('icon')} size={28} />
@@ -164,8 +203,12 @@ function PlayerContent({ song }) {
           <Button className={cx('btn', 'btn-next')} onClick={onPlayNextSong}>
             <MdSkipNext className={cx('icon')} size={28} />
           </Button>
-          <Button className={cx('btn', 'btn-repeat')}>
-            <PiRepeatOnceBold className={cx('icon')} size={22} />
+          <Button className={cx('btn', 'btn-repeat')} onClick={handleRepeatSong}>
+            <PiRepeatOnceBold
+              size={22}
+              className={cx('icon')}
+              color={isRepeat ? '#22c55e' : '#b3b3b3'}
+            />
           </Button>
         </div>
         <div className={cx('time-line')}>

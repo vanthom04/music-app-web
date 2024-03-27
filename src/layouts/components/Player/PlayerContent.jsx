@@ -35,11 +35,25 @@ function PlayerContent({ song }) {
   const onPlayPrevSong = () => {
     if (player.ids.length === 0) return
 
-    const currentIndex = player.ids.findIndex((id) => id === player.activeId)
-    const prevSong = player.ids[currentIndex - 1]
+    if (isRandom) {
+      let randomIndex
+      let randomIdSong
 
-    if (!prevSong) return player.setId(player.ids[player.ids.length - 1])
-    player.setId(prevSong)
+      do {
+        randomIndex = Math.floor(Math.random() * player.ids.length)
+        randomIdSong = player.ids[randomIndex]
+      } while (idsPlayed.includes(randomIdSong))
+
+      setIdsPlayed((prevIdsSong) => [...prevIdsSong, randomIdSong])
+
+      player.setId(randomIdSong)
+    } else {
+      const currentIndex = player.ids.findIndex((id) => id === player.activeId)
+      const prevSong = player.ids[currentIndex - 1]
+
+      if (!prevSong) return player.setId(player.ids[player.ids.length - 1])
+      player.setId(prevSong)
+    }
   }
 
   useEffect(() => {

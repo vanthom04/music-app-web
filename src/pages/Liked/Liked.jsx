@@ -37,7 +37,7 @@ function Liked() {
                 <div className={cx('user')}>
                   <Image
                     className={cx('avatar')}
-                    src={user.photoURL}
+                    src={user.photoURL || '/assets/images/no-avatar.jpg'}
                     alt={user.fullName}
                   />
                   <h4 className={cx('name')}>{user.fullName}</h4>

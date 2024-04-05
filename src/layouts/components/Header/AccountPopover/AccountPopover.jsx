@@ -70,7 +70,7 @@ function AccountPopover() {
     >
       <Image
         className={cx('avatar')}
-        src={state.user.photoURL}
+        src={state.user.photoURL || '/assets/images/no-avatar.jpg'}
         alt={state.user.fullName}
       />
     </Tippy>

@@ -1,8 +1,9 @@
 import classNames from 'classnames/bind'
 import toast from 'react-hot-toast'
 
+import { useMusic, actions } from '~/context'
 import * as playlistService from '~/services/playlistService'
-import { useUser, useMenuPlaylist, useDeletePlaylistModal, usePlaylist } from '~/hooks'
+import { useMenuPlaylist, useDeletePlaylistModal } from '~/hooks'
 import Modal from '~/components/Modal'
 import Button from '~/components/Button'
 import styles from './DeletePlaylistModal.module.scss'
@@ -10,8 +11,8 @@ import styles from './DeletePlaylistModal.module.scss'
 const cx = classNames.bind(styles)
 
 function DeletePlaylistModal() {
-  const { user } = useUser()
-  const playlist = usePlaylist()
+  const [state, dispatch] = useMusic()
+  const { user } = state
   const menuPlaylist = useMenuPlaylist()
   const deletePlaylistModal = useDeletePlaylistModal()
 
@@ -23,10 +24,16 @@ function DeletePlaylistModal() {
 
   const handleClickSuccess = async () => {
     if (!user) return
-    await playlistService.deletePlaylist(user.id, menuPlaylist.info.id, user.accessToken)
-    toast.success('Xóa danh sách phát thành công!')
-    deletePlaylistModal.onClose()
-    playlist.onReload()
+    const res = await playlistService
+      .deletePlaylist(user.id, menuPlaylist.info.id, user.accessToken)
+
+    if (res.success) {
+      dispatch(actions.deletePlaylist(menuPlaylist.info.id))
+      toast.success('Xóa danh sách phát thành công!')
+      deletePlaylistModal.onClose()
+    } else {
+      toast.error('Xóa danh sách phát không thành công!')
+    }
   }
 
   return (

@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
+import { useOnPlay } from '~/hooks'
 import HeaderSongItem from '~/components/HeaderSongItem'
 import AddSongButton from '~/components/AddSongButton'
 import SongNotFound from '~/components/SongNotFound'
 import SongItem from '~/components/SongItem'
 import styles from './PlaylistContent.module.scss'
-import { useOnPlay } from '~/hooks'
 
 const cx = classNames.bind(styles)
 
-function PlaylistContent({ playlistId, songs }) {
+function PlaylistContent({ songs }) {
   const onPlay = useOnPlay(songs)
 
-  if (songs.length === 0) return <SongNotFound playlistId={playlistId} />
+  if (songs.length === 0) return <SongNotFound />
 
   return (
     <div className={cx('wrapper')}>
@@ -27,14 +27,13 @@ function PlaylistContent({ playlistId, songs }) {
       ))}
       <div className={cx('footer')}>
         <h3>Thêm bài hát</h3>
-        <AddSongButton playlistId={playlistId} />
+        <AddSongButton />
       </div>
     </div>
   )
 }
 
 PlaylistContent.propTypes = {
-  playlistId: PropTypes.string,
   songs: PropTypes.array.isRequired
 }
 

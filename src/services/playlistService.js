@@ -71,7 +71,7 @@ export const deletePlaylist = async (userId, playlistId, token) => {
     const res = await httpRequest.remove(`/playlist/${userId}/${playlistId}`, {
       headers: { token: `Bearer ${token}` }
     })
-    res.playlist
+    return res.playlist
   } catch (error) {
     throw new Error(error)
   }

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
-import { useUser, useOnPlay, useLoginModal } from '~/hooks'
+import { useMusic } from '~/context'
+import { useOnPlay, useLoginModal } from '~/hooks'
 import LikeButton from '~/components/LikeButton'
 import Image from '~/components/Image'
 import styles from './SearchContent.module.scss'
@@ -9,7 +10,8 @@ import styles from './SearchContent.module.scss'
 const cx = classNames.bind(styles)
 
 function SearchContent({ songs }) {
-  const { user } = useUser()
+  const [state] = useMusic()
+
   const onPlay = useOnPlay(songs)
   const loginModal = useLoginModal()
 
@@ -18,7 +20,7 @@ function SearchContent({ songs }) {
   }
 
   const handleClick = (id) => {
-    if (!user) return loginModal.onOpen()
+    if (!state.user) return loginModal.onOpen()
     onPlay(id)
   }
 

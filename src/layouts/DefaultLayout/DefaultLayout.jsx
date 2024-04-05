@@ -4,11 +4,7 @@ import classNames from 'classnames/bind'
 import { LuPen } from 'react-icons/lu'
 import { IoMdRemoveCircleOutline } from 'react-icons/io'
 
-import {
-  useMenuPlaylist,
-  useUpdatePlaylistModal,
-  useDeletePlaylistModal
-} from '~/hooks'
+import { useMenuPlaylist, useUpdatePlaylistModal, useDeletePlaylistModal } from '~/hooks'
 import Header from '~/layouts/components/Header'
 import Sidebar from '~/layouts/components/Sidebar'
 import Player from '~/layouts/components/Player'
@@ -50,16 +46,16 @@ function DefaultLayout({ children }) {
 
   const handleClickItem = (id) => {
     switch (id) {
-    case 'update':
-      updatePlaylistModal.onOpen()
-      menuPlaylist.onClose(false)
-      break
-    case 'delete':
-      deletePlaylistModal.onOpen()
-      menuPlaylist.onClose(false)
-      break
-    default:
-      throw new Error('Invalid id: ' + id)
+      case 'update':
+        updatePlaylistModal.onOpen()
+        menuPlaylist.onClose(false)
+        break
+      case 'delete':
+        deletePlaylistModal.onOpen()
+        menuPlaylist.onClose(false)
+        break
+      default:
+        throw new Error('Invalid id: ' + id)
     }
   }
 

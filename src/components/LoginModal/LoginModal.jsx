@@ -2,8 +2,9 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import classNames from 'classnames/bind'
 
-import { useUser } from '~/hooks'
-import { useLoginModal, useRegisterModal } from '~/hooks'
+import { useMusic } from '~/context'
+import { validateEmail } from '~/utils/constants'
+import { useAuth, useLoginModal, useRegisterModal } from '~/hooks'
 import Modal from '~/components/Modal'
 import Input from '~/components/Input'
 import Image from '~/components/Image'
@@ -13,16 +14,17 @@ import styles from './LoginModal.module.scss'
 const cx = classNames.bind(styles)
 
 function LoginModal() {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  // eslint-disable-next-line no-unused-vars
+  const [state, dispatch] = useMusic()
+  const { loading, login } = useAuth()
   const loginModal = useLoginModal()
   const registerModal = useRegisterModal()
 
-  const { loading, login } = useUser()
-
   const resetForm = () => {
-    setUsername('')
+    setEmail('')
     setPassword('')
   }
 
@@ -43,15 +45,16 @@ function LoginModal() {
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault()
-    if (!username || !password) {
+    if (!email || !password) {
       return toast.error('Vui lòng nhập đầy đủ thông tin!')
     }
-
-    const success = await login(username, password)
-    if (success) {
-      loginModal.onClose()
-      resetForm()
+    if (!validateEmail(email.trim())) {
+      return toast.error('Vui lòng nhập đúng email!')
+    } else if (password.length < 6) {
+      return toast.error('Mật khẩu phải nhiều hơn 6 kí tự!')
     }
+
+    await login(email.trim(), password.trim())
   }
 
   return (
@@ -89,13 +92,13 @@ function LoginModal() {
         onSubmit={handleSubmitLogin}
       >
         <div>
-          <div className={cx('label')}>Tên đăng nhập</div>
+          <div className={cx('label')}>Email</div>
           <Input
             type="text"
-            value={username}
+            value={email}
             className={cx('input')}
-            placeholder="Nhập tên đăng nhập của bạn"
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Nhập email của bạn"
+            onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
           />
         </div>

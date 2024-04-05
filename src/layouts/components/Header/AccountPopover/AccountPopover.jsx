@@ -1,43 +1,59 @@
 import classNames from 'classnames/bind'
+import jsCookie from 'js-cookie'
 import Tippy from '@tippyjs/react/headless'
 
-import { useUser } from '~/hooks'
+import { useRouter } from '~/hooks'
+import { actions, useMusic } from '~/context'
 import MenuItem from './MenuItem'
-import styles from './AccountPopover.module.scss'
 import Image from '~/components/Image'
 import Button from '~/components/Button'
+import styles from './AccountPopover.module.scss'
 
 const cx = classNames.bind(styles)
 
-const MENU_ITEMS = [
+const MENU_OPTIONS = [
   {
+    path: 'home',
     label: 'Trang chủ'
   },
   {
+    path: 'profile',
     label: 'Tài khoản'
   },
   {
+    path: 'settings',
     label: 'Cài đặt'
   }
 ]
 
 function AccountPopover() {
-  const { user, logout } = useUser()
+  const [state, dispatch] = useMusic()
+  const router = useRouter()
 
   const handleClickItem = (item) => {
     // eslint-disable-next-line no-console
     console.log(item)
   }
 
-  if (!user) return null
+  const handleLogout = () => {
+    jsCookie.remove('accessToken')
+    dispatch(actions.setUser(undefined))
+    router.reload()
+  }
+
+  if (!state.user) return null
 
   const renderResult = (attrs) => (
     <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
       <header className={cx('header-menu')}>
-        <h4 className={cx('title')}>{user.displayName || user.username}</h4>
-        <p className={cx('email')}>{user.email}</p>
+        <h4 className={cx('title')}>
+          {state.user.fullName}
+        </h4>
+        <p className={cx('email')}>
+          {state.user.email}
+        </p>
       </header>
-      {MENU_ITEMS.map((item) => (
+      {MENU_OPTIONS.map((item) => (
         <MenuItem
           key={item.label}
           data={item}
@@ -45,7 +61,7 @@ function AccountPopover() {
         />
       ))}
       <footer className={cx('footer-menu')}>
-        <Button className={cx('btn-logout')} onClick={() => logout()}>
+        <Button className={cx('btn-logout')} onClick={() => handleLogout()}>
           Đăng xuất
         </Button>
       </footer>
@@ -61,8 +77,8 @@ function AccountPopover() {
     >
       <Image
         className={cx('avatar')}
-        src="https://i.imgur.com/l8Zh2zx.png"
-        alt="Avatar"
+        src={state.user.photoURL}
+        alt={state.user.fullName}
       />
     </Tippy>
   )

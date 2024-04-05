@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 
 import LoginModal from '~/components/LoginModal'
 import RegisterModal from '~/components/RegisterModal'
-import UploadModal from '~/components/UploadModal'
 import AddSongModal from '~/components/AddSongModal'
+import UploadPlaylistModal from '~/components/UploadPlaylistModal'
 import UpdatePlaylistModal from '~/components/UpdatePlaylistModal'
 import DeletePlaylistModal from '~/components/DeletePlaylistModal'
 
@@ -20,8 +20,8 @@ const ModalProvider = () => {
     <>
       <LoginModal />
       <RegisterModal />
-      <UploadModal />
       <AddSongModal />
+      <UploadPlaylistModal />
       <UpdatePlaylistModal />
       <DeletePlaylistModal />
     </>

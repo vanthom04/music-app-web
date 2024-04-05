@@ -1,20 +1,23 @@
-import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import { LuPlus } from 'react-icons/lu'
+import { useParams } from 'react-router-dom'
 
-import { useUser, useAddSongModal } from '~/hooks'
+import { useMusic } from '~/context'
+import { useAddSongModal } from '~/hooks'
 import Button from '~/components/Button'
 import styles from './AddSongButton.module.scss'
 
 const cx = classNames.bind(styles)
 
-function AddSongButton({ playlistId }) {
-  const { user } = useUser()
+function AddSongButton() {
+  const [state] = useMusic()
+  const { user } = state
   const addSongModal = useAddSongModal()
+  const params = useParams()
 
   const handleClick = () => {
     if (!user) return
-    addSongModal.setId(playlistId)
+    addSongModal.setId(params.playlistId)
     addSongModal.onOpen()
   }
 
@@ -23,10 +26,6 @@ function AddSongButton({ playlistId }) {
       <LuPlus className={cx('icon')} size={22} />
     </Button>
   )
-}
-
-AddSongButton.propTypes = {
-  playlistId: PropTypes.string
 }
 
 export default AddSongButton

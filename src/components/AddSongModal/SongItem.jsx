@@ -23,7 +23,7 @@ function SongItem({ song, onClick }) {
       </div>
       <Button
         className={cx('btn-add')}
-        onClick={() => onClick(song.id)}
+        onClick={() => onClick(song)}
       >
         Thêm
       </Button>

@@ -3,7 +3,8 @@ import classNames from 'classnames/bind'
 import { FaPlay } from 'react-icons/fa6'
 
 import config from '~/config'
-import { useUser, useRouter, useLoginModal } from '~/hooks'
+import { useMusic, actions } from '~/context'
+import { useRouter, useLoginModal } from '~/hooks'
 import * as songService from '~/services/songService'
 import Image from '~/components/Image'
 import HomeContent from './HomeContent'
@@ -13,12 +14,12 @@ import styles from './Home.module.scss'
 const cx = classNames.bind(styles)
 
 function Home() {
-  const { user } = useUser()
+  const [title, setTitle] = useState('Xin chào!')
+
+  const [state, dispatch] = useMusic()
+  const { user, allSongs } = state
   const router = useRouter()
   const loginModal = useLoginModal()
-
-  const [title, setTitle] = useState('Xin chào')
-  const [songs, setSongs] = useState([])
 
   useEffect(() => {
     const now = new Date()
@@ -33,14 +34,15 @@ function Home() {
   }, [])
 
   useEffect(() => {
-    const fetchApi = async () => {
-      const result = await songService.getAllSongs()
+    if (allSongs.length === 0) {
+      const fetchApi = async () => {
+        const result = await songService.getAllSongs()
+        dispatch(actions.getAllSongs(result))
+      }
 
-      setSongs(result)
+      fetchApi()
     }
-
-    fetchApi()
-  }, [user])
+  }, [allSongs.length, dispatch])
 
   const handleClickLiked = () => {
     if (!user) {
@@ -54,7 +56,11 @@ function Home() {
       <div className={cx('header')}>
         <h1 className={cx('title')}>{title}</h1>
         <div className={cx('liked')} onClick={handleClickLiked}>
-          <Image className={cx('image')} src="https://i.imgur.com/sy1ckmI.png" alt="Favorites" />
+          <Image
+            className={cx('image')}
+            src="/assets/images/liked.png"
+            alt="Favorites"
+          />
           <span className={cx('title')}>Bài hát đã thích</span>
           <Button className={cx('play-btn')}>
             <FaPlay className={cx('icon')} size={20} />
@@ -65,7 +71,7 @@ function Home() {
         <div className={cx('content-title')}>
           <h2 className={cx('title')}>Tất cả bài hát</h2>
         </div>
-        <HomeContent songs={songs} />
+        <HomeContent songs={allSongs} />
       </div>
     </>
   )

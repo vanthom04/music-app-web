@@ -2,7 +2,9 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import classNames from 'classnames/bind'
 
-import { useUser, useLoginModal, useRegisterModal } from '~/hooks'
+import { useAuth } from '~/hooks'
+import { validateEmail } from '~/utils/constants'
+import { useLoginModal, useRegisterModal } from '~/hooks'
 import Modal from '~/components/Modal'
 import Input from '~/components/Input'
 import Image from '~/components/Image'
@@ -12,16 +14,16 @@ import styles from './RegisterModal.module.scss'
 const cx = classNames.bind(styles)
 
 function RegisterModal() {
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const { loading, register } = useUser()
+  const { register, loading } = useAuth()
   const loginModal = useLoginModal()
   const registerModal = useRegisterModal()
 
   const resetForm = () => {
-    setUsername('')
+    setFullName('')
     setEmail('')
     setPassword('')
   }
@@ -43,16 +45,15 @@ function RegisterModal() {
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault()
-    if (!username || !email || !password) {
+    if (!fullName || !email || !password) {
       return toast.error('Vui lòng nhập đầy đủ thông tin!')
+    } else if (!validateEmail(email.trim())) {
+      return toast.error('Vui lòng nhập đúng email!')
+    } else if (password.length < 6) {
+      return toast.error('Mật khẩu phải nhiều hơn 6 kí tự!')
     }
 
-    const success = await register(username, email, password)
-    if (success) {
-      registerModal.onClose()
-      loginModal.onOpen()
-      resetForm()
-    }
+    await register(fullName, email, password)
   }
 
   return (
@@ -81,22 +82,20 @@ function RegisterModal() {
         </Button>
       </div>
 
-      <div className={cx('or')}>
-        Hoặc
-      </div>
+      <div className={cx('or')}>Hoặc</div>
 
       <form
         className={cx('form-login')}
         onSubmit={handleSubmitRegister}
       >
         <div>
-          <div className={cx('label')}>Tên đăng nhập</div>
+          <div className={cx('label')}>Họ và tên</div>
           <Input
             type="text"
-            value={username}
+            value={fullName}
             className={cx('input')}
-            placeholder="Nhập tên đăng nhập của bạn"
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Nhập tên của bạn"
+            onChange={(e) => setFullName(e.target.value)}
             disabled={loading}
           />
         </div>

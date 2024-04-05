@@ -2,21 +2,22 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import classNames from 'classnames/bind'
 
-import { createNewPlaylist } from '~/services/playlistService'
-import { useUser, useUploadModal, usePlaylist } from '~/hooks'
+import { useMusic, actions } from '~/context'
+import * as playlistService from '~/services/playlistService'
+import { useUploadModal } from '~/hooks'
 import Modal from '~/components/Modal'
 import Input from '~/components/Input'
 import Button from '~/components/Button'
-import styles from './UploadModal.module.scss'
+import styles from './UploadPlaylistModal.module.scss'
 
 const cx = classNames.bind(styles)
 
 function UploadModal() {
   const [title, setTitle] = useState('')
+  const [file, setFile] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const { user } = useUser()
-  const playlist = usePlaylist()
+  const [state, dispatch] = useMusic()
   const uploadModal = useUploadModal()
 
   const onChange = (open) => {
@@ -27,20 +28,26 @@ function UploadModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!user) return
-    if (!title) {
+    if (!state.user) return
+    if (!title || !file) {
       return toast.error('Vui lòng nhập đầy đủ thông tin!')
     }
 
     setLoading(true)
     const formData = new FormData(e.target)
-    const res = await createNewPlaylist(user.id, formData, user.accessToken)
+    const res = await playlistService
+      .createNewPlaylist(state.user.id, formData, state.user.accessToken)
+
     if (res.success) {
       toast.success('Tạo danh sách phát thành công!')
       uploadModal.onClose()
-      playlist.onReload()
       setTitle('')
       setLoading(false)
+
+      const playlist = await playlistService
+        .getPlaylist(state.user.id, res._id, state.user.accessToken)
+      const thumbnail = URL.createObjectURL(file)
+      dispatch(actions.createPlaylist({ ...playlist, thumbnail }))
     } else {
       toast.error('Tạo mới không thành công')
       setLoading(false)
@@ -77,6 +84,7 @@ function UploadModal() {
             accept="image/*"
             disabled={loading}
             className={cx('input-file')}
+            onChange={(e) => setFile(e.target.files[0])}
           />
         </div>
 

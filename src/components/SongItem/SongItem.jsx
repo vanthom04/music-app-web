@@ -8,7 +8,7 @@ import { TfiMoreAlt } from 'react-icons/tfi'
 import { IoMdRemoveCircleOutline } from 'react-icons/io'
 import { CgSoftwareDownload } from 'react-icons/cg'
 
-import { useUser, usePlaylist } from '~/hooks'
+import { useMusic, actions } from '~/context'
 import * as playlistService from '~/services/playlistService'
 import LikeButton from '~/components/LikeButton'
 import { padStart } from '~/utils/constants'
@@ -36,9 +36,9 @@ function SongItem({ song, onClick }) {
   const [menu, setMenu] = useState([])
   const [isOpenMenu, setIsOpenMenu] = useState(false)
 
-  const { user } = useUser()
+  const [state, dispatch] = useMusic()
+  const { user } = state
   const location = useLocation()
-  const playlist = usePlaylist()
 
   useEffect(() => {
     const pathname = location.pathname
@@ -73,8 +73,8 @@ function SongItem({ song, onClick }) {
       .removeSongFormPlaylist(user.id, playlistId, song.id, user.accessToken)
 
     if (res.success) {
+      dispatch(actions.removeSongFromPlaylist({ song, playlistId }))
       toast.success('Xóa khỏi danh sách phát thành công')
-      playlist.onReload()
     } else {
       toast.error('Xóa bài hát khỏi danh sách phát không thành công')
     }
@@ -96,14 +96,14 @@ function SongItem({ song, onClick }) {
 
   const handleClickItemMenu = (id) => {
     switch (id) {
-    case 'remove':
-      removeSongFormPlaylist()
-      break
-    case 'download':
-      downloadFile()
-      break
-    default:
-      throw new Error('Invalid id: ' + id)
+      case 'remove':
+        removeSongFormPlaylist()
+        break
+      case 'download':
+        downloadFile()
+        break
+      default:
+        throw new Error('Invalid id: ' + id)
     }
   }
 

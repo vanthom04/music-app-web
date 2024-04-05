@@ -2,66 +2,57 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import classNames from 'classnames/bind'
 
-import { useUser, usePlaylist } from '~/hooks'
-import * as playlistService from '~/services/playlistService'
+import config from '~/config'
+import { useRouter } from '~/hooks'
+import { useMusic } from '~/context'
 import Image from '~/components/Image'
+import Loading from '~/components/Loading'
 import PlaylistContent from './PlaylistContent'
 import styles from './Playlist.module.scss'
-import Loading from '~/components/Loading'
 
 const cx = classNames.bind(styles)
 
 function Playlist() {
-  const [detailPlaylist, setDetailPlaylist] = useState(null)
-  const [songs, setSongs] = useState([])
+  const [playlist, setPlaylist] = useState(null)
 
-  const { user } = useUser()
-  const playlist = usePlaylist()
+  const [state] = useMusic()
+  const { user, allPlaylist } = state
+  const router = useRouter()
   const params = useParams()
 
   useEffect(() => {
-    if (!user) return
-
-    const fetchPlaylist = async () => {
-      const userId = user.id
-      const accessToken = user.accessToken
-      const playlistId = params.playlistId
-      const res = await playlistService.getPlaylist(userId, playlistId, accessToken)
-      setDetailPlaylist(res)
-      setSongs(res.songs)
-    }
-
-    fetchPlaylist()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, params.playlistId, playlist.reload])
+    if (!user) return router.push(config.routes.home)
+    const [details] = allPlaylist.filter(p => p.id === params.playlistId)
+    setPlaylist(details)
+  }, [user, params.playlistId, allPlaylist, router])
 
   return (
     <>
-      {detailPlaylist ? (
+      {playlist ? (
         <>
           <div className={cx('dashboard')}>
             <Image
               className={cx('image')}
-              src={detailPlaylist.thumbnail}
-              alt={detailPlaylist.title}
+              src={playlist.thumbnail}
+              alt={playlist.title}
             />
             <div className={cx('info')}>
               <h5 className={cx('title')}>Playlist</h5>
-              <h1 className={cx('display-name')}>{detailPlaylist.title}</h1>
+              <h1 className={cx('display-name')}>{playlist.title}</h1>
               <span className={cx('analytics')}>
                 <div className={cx('user')}>
                   <Image
                     className={cx('avatar')}
-                    src="https://i.imgur.com/l8Zh2zx.png"
-                    alt=""
+                    src={user.photoURL}
+                    alt={user.fullName}
                   />
-                  <h4 className={cx('name')}>Văn Thơm</h4>
+                  <h4 className={cx('name')}>{user.fullName}</h4>
                 </div>
-                <div className={cx('statistical')}>{setDetailPlaylist.analytics}</div>
+                <div className={cx('statistical')}>{playlist.analytics}</div>
               </span>
             </div>
           </div>
-          <PlaylistContent playlistId={params.playlistId} songs={songs} />
+          <PlaylistContent songs={playlist.songs} />
         </>
       ) : (
         <Loading />

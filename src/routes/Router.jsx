@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import { Outlet, useRoutes } from 'react-router-dom'
 
 import config from '~/config'
 import { DefaultLayout } from '~/layouts'
@@ -8,7 +8,8 @@ const HomePage = lazy(() => import('~/pages/Home'))
 const SearchPage = lazy(() => import('~/pages/Search'))
 const LikePage = lazy(() => import('~/pages/Liked'))
 const PlaylistPage = lazy(() => import('~/pages/Playlist'))
-// const UploadPage = lazy(() => import('~/pages/Upload'))
+const ProfilePage = lazy(() => import('~/pages/Profile'))
+const SettingPage = lazy(() => import('~/pages/Setting'))
 const NotFoundPage = lazy(() => import('~/pages/NotFound'))
 
 function Router() {
@@ -25,16 +26,14 @@ function Router() {
         { element: <HomePage />, index: true },
         { element: <SearchPage />, path: config.routes.search },
         { element: <LikePage />, path: config.routes.liked },
-        { element: <PlaylistPage />, path: config.routes.playlist }
+        { element: <PlaylistPage />, path: config.routes.playlist },
+        { element: <ProfilePage />, path: config.routes.profile },
+        { element: <SettingPage />, path: config.routes.settings }
       ]
     },
     {
       path: config.routes.notFound,
       element: <NotFoundPage />
-    },
-    {
-      path: '*',
-      element: <Navigate to={config.routes.notFound} replace />
     }
   ])
 

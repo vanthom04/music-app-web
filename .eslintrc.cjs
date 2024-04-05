@@ -16,10 +16,11 @@ module.exports = {
     'react-refresh'
   ],
   rules: {
+    'no-case-declarations': 0,
     'react-refresh/only-export-components': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    'react/prop-types': 0,
+    'react/prop-types': 1,
     'react/display-name': 0,
     'no-console': 1,
     'no-lonely-if': 1,
@@ -29,7 +30,7 @@ module.exports = {
     'no-multiple-empty-lines': 1,
     'space-before-blocks': ['error', 'always'],
     'object-curly-spacing': [1, 'always'],
-    'indent': ['warn', 2],
+    'indent': ['warn', 2, { 'SwitchCase': 1 }],
     'semi': [1, 'never'],
     'quotes': ['warn', 'single'],
     'array-bracket-spacing': 1,

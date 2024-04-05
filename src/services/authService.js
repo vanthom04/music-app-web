@@ -1,25 +1,21 @@
 import * as httpRequest from '~/utils/httpRequest'
 
-export const login = async (username, password) => {
+export const login = async (email, password) => {
   try {
     const res = await httpRequest.post('/auth/login', {
-      username,
+      email,
       password
     })
     return res.user
   } catch (error) {
-    if (error.response && error.response.status === 401) {
-      throw new Error('Sai tên đăng nhập hoặc mật khẩu')
-    } else {
-      throw new Error(error)
-    }
+    throw new Error(error)
   }
 }
 
-export const register = async (username, email, password) => {
+export const register = async (fullName, email, password) => {
   try {
     const res = await httpRequest.post('/auth/register', {
-      username,
+      fullName,
       email,
       password
     })

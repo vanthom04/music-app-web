@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -10,4 +11,9 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID
 }
 
-export default initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
+const googleProvider = new GoogleAuthProvider()
+const facebookProvider = new FacebookAuthProvider()
+
+export { auth, googleProvider, facebookProvider }

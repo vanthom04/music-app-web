@@ -4,7 +4,9 @@ const routes = {
   upload: '/upload',
   liked: '/liked',
   playlist: '/playlist/:playlistId',
-  notFound: '404'
+  profile: '/profile',
+  settings: '/settings',
+  notFound: '*'
 }
 
 export default routes

@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 
+import { useMusic } from '~/context'
+import { useOnPlay, useLoginModal } from '~/hooks'
 import SongCardItem from './SongCardItem'
 import styles from './HomeContent.module.scss'
-import { useOnPlay, useUser, useLoginModal } from '~/hooks'
 
 const cx = classNames.bind(styles)
 
 function HomeContent({ songs }) {
-  const { user } = useUser()
+  const [state] = useMusic()
+  const { user } = state
+
   const onPlay = useOnPlay(songs)
   const loginModal = useLoginModal()
 

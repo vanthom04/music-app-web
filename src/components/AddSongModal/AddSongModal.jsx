@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import classNames from 'classnames/bind'
+import toast from 'react-hot-toast'
 
-import { useUser, useDebounce, useAddSongModal, usePlaylist } from '~/hooks'
+import { useMusic, actions } from '~/context'
+import { useDebounce, useAddSongModal } from '~/hooks'
+import * as songService from '~/services/songService'
 import * as searchService from '~/services/searchService'
 import * as playlistService from '~/services/playlistService'
 import Modal from '~/components/Modal'
-import styles from './AddSongModal.module.scss'
-import SearchInput from '../SearchInput'
+import SearchInput from '~/components/SearchInput'
 import SongItem from './SongItem'
-import toast from 'react-hot-toast'
+import styles from './AddSongModal.module.scss'
 
 const cx = classNames.bind(styles)
 
@@ -19,8 +21,8 @@ function AddSongModal() {
 
   const debounceValue = useDebounce(value, 500)
 
-  const { user } = useUser()
-  const playlist = usePlaylist()
+  const [state, dispatch] = useMusic()
+  const { user, allSongs } = state
   const addSongModal = useAddSongModal()
 
   const onChange = (open) => {
@@ -31,9 +33,22 @@ function AddSongModal() {
 
   useEffect(() => {
     if (addSongModal.isOpen) {
+      if (!value) {
+        if (allSongs.length === 0) {
+          const fetchApi = async () => {
+            const result = await songService.getAllSongs()
+            dispatch(actions.getAllSongs(result))
+          }
+
+          fetchApi()
+        } else {
+          setSongs(allSongs)
+        }
+        return
+      }
+
       const fetchApi = async () => {
         setLoading(true)
-
         const result = await searchService.searchSongs(debounceValue)
         setSongs(result)
         setLoading(false)
@@ -41,19 +56,20 @@ function AddSongModal() {
 
       fetchApi()
     }
-  }, [user, addSongModal, debounceValue])
+  }, [user, addSongModal, debounceValue, value, allSongs, dispatch])
 
-  const handleClickAddSong = async (songId) => {
+  const handleClickAddSong = async (song) => {
     if (!user) return
+
     const res = await playlistService.addSongToPlaylist(
       user.id,
       addSongModal.playlistId,
-      songId,
+      song.id,
       user.accessToken
     )
     if (res.success) {
+      dispatch(actions.addSongToPlaylist({ song, playlistId: addSongModal.playlistId }))
       toast.success('Thêm bài hát thành công!')
-      playlist.onReload()
     } else {
       toast.error('Thêm bài hát không thành công!')
     }
@@ -81,7 +97,7 @@ function AddSongModal() {
               <SongItem
                 key={song.id}
                 song={song}
-                onClick={(id) => handleClickAddSong(id)}
+                onClick={(data) => handleClickAddSong(data)}
               />
             ))}
           </div>

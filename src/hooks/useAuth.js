@@ -57,7 +57,9 @@ const useAuth = () => {
   }
 
   const logout = async () => {
-
+    jsCookie.remove('accessToken')
+    dispatch(actions.setUser(undefined))
+    router.reload()
   }
 
   const loginWithGoogle = async () => {

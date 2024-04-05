@@ -1,4 +1,4 @@
-import Helmet from 'react-helmet-async'
+import { Helmet } from 'react-helmet-async'
 import classNames from 'classnames/bind'
 
 import styles from './Setting.module.scss'

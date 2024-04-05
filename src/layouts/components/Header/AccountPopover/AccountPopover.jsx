@@ -1,9 +1,8 @@
 import classNames from 'classnames/bind'
-import jsCookie from 'js-cookie'
 import Tippy from '@tippyjs/react/headless'
 
-import { useRouter } from '~/hooks'
-import { actions, useMusic } from '~/context'
+import { useAuth } from '~/hooks'
+import { useMusic } from '~/context'
 import MenuItem from './MenuItem'
 import Image from '~/components/Image'
 import Button from '~/components/Button'
@@ -27,18 +26,12 @@ const MENU_OPTIONS = [
 ]
 
 function AccountPopover() {
-  const [state, dispatch] = useMusic()
-  const router = useRouter()
+  const [state] = useMusic()
+  const { logout } = useAuth()
 
   const handleClickItem = (item) => {
     // eslint-disable-next-line no-console
     console.log(item)
-  }
-
-  const handleLogout = () => {
-    jsCookie.remove('accessToken')
-    dispatch(actions.setUser(undefined))
-    router.reload()
   }
 
   if (!state.user) return null
@@ -61,7 +54,7 @@ function AccountPopover() {
         />
       ))}
       <footer className={cx('footer-menu')}>
-        <Button className={cx('btn-logout')} onClick={() => handleLogout()}>
+        <Button className={cx('btn-logout')} onClick={() => logout()}>
           Đăng xuất
         </Button>
       </footer>

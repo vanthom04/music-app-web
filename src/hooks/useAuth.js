@@ -11,8 +11,7 @@ import { auth, googleProvider, facebookProvider } from '~/config/firebase'
 const useAuth = () => {
   const [loading, setLoading] = useState(false)
 
-  // eslint-disable-next-line no-unused-vars
-  const [state, dispatch] = useMusic()
+  const [, dispatch] = useMusic()
   const router = useRouter()
 
   const register = async (fullName, email, password) => {
@@ -26,7 +25,7 @@ const useAuth = () => {
       jsCookie.set('accessToken', res.accessToken, {
         expires: 15,
         sameSite: 'strict',
-        secure: false
+        secure: !import.meta.env.DEV
       })
       router.reload()
     } else {
@@ -47,7 +46,7 @@ const useAuth = () => {
       jsCookie.set('accessToken', res.accessToken, {
         expires: 15,
         sameSite: 'strict',
-        secure: false
+        secure: !import.meta.env.DEV
       })
       router.reload()
     } else {
